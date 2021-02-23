@@ -14,7 +14,10 @@ class Game
   end
 
   def check_full
-    
+    @board.spaces.each do |row| 
+      return false if row.include?(false)
+    end
+    true
   end
 
   def check_winner

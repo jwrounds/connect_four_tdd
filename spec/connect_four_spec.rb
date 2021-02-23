@@ -41,6 +41,14 @@ describe Game do
         expect(full_game.check_full).to eq(true)
       end
     end
+
+    context 'when the board is not full' do
+      subject(:open_game) { described_class.new }
+
+      it 'returns false' do
+        expect(open_game.check_full).to eq(false)
+      end
+    end
   end
 
   describe '#check_winner' do
