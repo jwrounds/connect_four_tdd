@@ -4,11 +4,41 @@ require_relative '../lib/connect_four_board.rb'
 
 describe Game do
   describe '#game_over?' do
-    subject(:game_won) { described_class.new }
+    subject(:game_over) { described_class.new }
 
-    context 'when there are four pieces of a single type in a row' do
+    context 'when a player has won' do
+      before do
+        allow(game_over).to receive(:check_winner).and_return('Player One')
+      end
       it 'returns true' do
-        expect(game_won).to be_game_over
+        expect(game_over).to be_game_over
+      end
+    end
+
+    context 'when the board is full' do
+      before do
+        allow(game_over).to receive(:check_full).and_return(true)
+      end
+      it 'returns true' do
+        expect(game_over).to be_game_over
+      end
+    end
+  end
+
+  describe '#check_full' do
+    context 'when the board is filled with pieces without four in a row' do
+      let(:full_board) { instance_double(Board, spaces: [
+        ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+        ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+        ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+        ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+        ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+        ['O', 'X', 'O', 'X', 'O', 'X', 'O']
+        ]) }
+      subject(:full_game) { described_class.new(full_board) }
+      
+      it 'returns true' do
+        expect(full_game.check_full).to eq(true)
       end
     end
   end
@@ -20,7 +50,6 @@ describe Game do
       it 'returns the player who owns the pieces' do
         winner = Player.new('One', 'X')
         4.times { winner.play_piece(game_won.board, 0) }
-
         expect(game_won.winner).to be_truthy
       end
     end

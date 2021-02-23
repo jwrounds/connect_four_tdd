@@ -9,6 +9,10 @@ class Board
   end
 
   def place_piece col, symbol
-    5.downto(0) { |i| @spaces[i][col] = symbol unless @spaces[i][col] }
+    row = @spaces.length - 1
+    while row > 0 do
+      return @spaces[row][col] = symbol unless @spaces[row][col]
+      row -= 1
+    end
   end
 end
