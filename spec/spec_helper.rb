@@ -97,4 +97,5 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  config.default_formatter = "doc"
 end
