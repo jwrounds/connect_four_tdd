@@ -1,10 +1,10 @@
 class Player
-  def initialize name, symbol
+  def initialize name, piece
     @name = name
-    @symbol = symbol
+    @piece = piece
   end
 
   def play_piece board, column
-    
+    board.place_piece(column, @piece)
   end
 end
