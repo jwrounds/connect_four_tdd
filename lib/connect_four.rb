@@ -50,7 +50,7 @@ class Game
       in_row = 0
       while row < row_length
         space = @board.spaces[row][column]
-        
+
         # if next and last spaces are valid, initialize them as variables
         next_space = @board.spaces[row+1][column] if row < row_length-1
         last_space = @board.spaces[row-1][column] if column < column_length-1
@@ -68,7 +68,41 @@ class Game
     false
   end
 
-  def check_diagonals
+  def check_diagonals 
+    row = 0
+    column = 0
+    in_row = 0
+    row_length = @board.spaces.length
+    column_length = @board.spaces[0].length
+    
+    @board.spaces.each do
+      # left to right, top to bottom check
+      in_row = 0
+      column = 0
+      while column < column_length && row < row_length
+        space = @board.spaces[row][column]
+        next_space = nil
+        last_space = nil
+
+        # if next and last spaces are valid, initialize them as variables
+        if row < row_length-1 && column < column_length-1 
+          next_space = @board.spaces[row+1][column+1]     
+        end
+
+        if row > 0 && column > 0
+          last_space = @board.spaces[row-1][column-1]
+        end
+        
+        if space
+          in_row += 1 if space == next_space || space == last_space
+          return true if in_row == 4
+        else
+          in_row = 0
+        end
+        column += 1
+        row += 1
+      end
+    end
     false
   end
 end

@@ -95,6 +95,40 @@ describe Game do
       end
     end
   end
+
+  describe '#check_diagonals' do
+    context 'when there are four of the same piece in a left-top to right-bottom diagonal row' do
+      let(:diagonal_board) { instance_double(Board, spaces: [
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, 'O', false, false, false, false],
+        [false, false, false, 'O', false, false, false],
+        [false, false, false, false, 'O', false, false],
+        [false, false, false, false, false, 'O', false]
+      ])}
+      subject(:diagonal_won) { described_class.new(diagonal_board) }
+      
+      it 'returns true' do
+        expect(diagonal_won.check_diagonals).to eq(true)
+      end
+    end
+
+    context 'when there are four of the same piece in a right-top to left-bottom diagonal row' do
+      let(:diagonal_board) { instance_double(Board, spaces: [
+        [false, false, false, false, false, false, 'O'],
+        [false, false, false, false, false, 'O', false],
+        [false, false, false, false, 'O', false, false],
+        [false, false, false, 'O', false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false]
+      ])}
+      subject(:diagonal_won) { described_class.new(diagonal_board) }
+      
+      it 'returns true' do
+        expect(diagonal_won.check_diagonals).to eq(true)
+      end
+    end
+  end
 end
 
 describe Player do
