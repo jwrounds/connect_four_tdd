@@ -52,13 +52,20 @@ describe Game do
   end
 
   describe '#check_winner' do
-    subject(:game_won) { described_class.new }
+    context 'when there are four of the same pieces in a row' do
+      subject(:game_won) { described_class.new }
 
-    context 'when there are four pieces of a single type in a row' do
-      it 'returns a truthy value' do
+      it 'returns true' do
         winner = Player.new('One', 'X')
-        4.times { winner.play_piece(game_won.board, 0) }
-        expect(game_won.check_winner).to be_truthy
+        4.times {|i| winner.play_piece(game_won.board, i) }
+        expect(game_won.check_winner).to eq(true)
+      end
+    end
+
+    context 'when there are not four pieces in a row' do
+      subject(:ongoing_game) { described_class.new }
+      it 'returns false' do
+        expect(ongoing_game.check_winner).to eq(false)
       end
     end
   end
@@ -76,6 +83,18 @@ describe Game do
     end
   end
 
+  describe '#check_columns' do
+    context 'when there are four of the same pieces in a vertical row' do
+      subject(:column_won) { described_class.new }
+
+      it 'returns true' do
+        winner = Player.new('One', 'X')
+        4.times { winner.play_piece(column_won.board, 0) }
+        expect(column_won.check_columns).to eq(true)
+        column_won.check_columns
+      end
+    end
+  end
 end
 
 describe Player do
