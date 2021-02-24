@@ -21,6 +21,29 @@ class Game
   end
 
   def check_winner
+    check_rows || check_columns || check_diagonals
+  end
+
+  def check_rows rows = @board.spaces
+    rows.each do |row|
+      in_row = 0
+      row.each_with_index do |space, i|
+        in_row += 1 if space
+        if space && row[i+1]
+          in_row += 1 if space == row[i+1]
+          return true if in_row == 4
+        else
+          in_row = 0
+        end
+      end
+    end
+  end
+
+  def check_columns
+
+  end
+
+  def check_diagonals
 
   end
 end

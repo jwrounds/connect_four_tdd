@@ -55,13 +55,27 @@ describe Game do
     subject(:game_won) { described_class.new }
 
     context 'when there are four pieces of a single type in a row' do
-      it 'returns the player who owns the pieces' do
+      it 'returns a truthy value' do
         winner = Player.new('One', 'X')
         4.times { winner.play_piece(game_won.board, 0) }
-        expect(game_won.winner).to be_truthy
+        expect(game_won.check_winner).to be_truthy
       end
     end
   end
+
+  describe '#check_rows' do
+    context 'when there are four of the same pieces in a horizontal row' do
+      subject(:row_won) { described_class.new }
+
+      it 'returns true' do
+        winner = Player.new('One', 'O')
+        4.times {|i| winner.play_piece(row_won.board, i) }
+        expect(row_won.check_rows).to eq(true)
+        row_won.check_rows
+      end
+    end
+  end
+
 end
 
 describe Player do
