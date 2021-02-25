@@ -115,10 +115,10 @@ describe Game do
 
     context 'when there are four of the same piece in a right-top to left-bottom diagonal row' do
       let(:diagonal_board) { instance_double(Board, spaces: [
-        [false, false, false, false, false, false, 'O'],
-        [false, false, false, false, false, 'O', false],
-        [false, false, false, false, 'O', false, false],
         [false, false, false, 'O', false, false, false],
+        [false, false, 'O', false, false, false, false],
+        [false, 'O', false, false, false, false, false],
+        ['O', false, false, false, false, false, false],
         [false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false]
       ])}
