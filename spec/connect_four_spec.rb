@@ -129,6 +129,25 @@ describe Game do
       end
     end
   end
+
+  describe '#set_players' do
+    subject(:new_game) { described_class.new }
+
+    context 'when the player objects are created' do
+      before do
+        allow(new_game).to receive(:gets).and_return('One', 'X', 'Two', 'O')
+      end
+      it 'adds two players to the @players array' do
+        expect{ new_game.set_players }.to change { new_game.players.length }.from(0).to(2)
+      end
+    
+
+      it 'adds two Player objects' do
+        expect(new_game.players).to all(be_a(Player))
+        new_game.set_players
+      end
+    end
+  end
 end
 
 describe Player do

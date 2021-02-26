@@ -2,11 +2,12 @@ require_relative '../lib/connect_four_player.rb'
 require_relative '../lib/connect_four_board.rb'
 
 class Game
-  attr_reader :winner, :board
+  attr_reader :winner, :board, :players
   
   def initialize board = Board.new
     @board = board
     @winner = nil
+    @players = []
   end
 
   def game_over?
@@ -152,7 +153,38 @@ class Game
         end
       end
     end
-
     false
   end
+
+  def set_players
+    player_one_name = gets "First player, please enter your name: "
+    player_one_symbol = gets "First player, please enter your symbol: "
+    @players.push(Player.new(player_one_name, player_one_symbol))
+
+    player_two_name = gets "\nSecond player, please enter your name: "
+    player_two_symbol = gets "Second player, please enter your symbol: "
+    @players.push(Player.new(player_two_name, player_two_symbol))
+  end
+
+  def play_game
+    introduction
+    print_board
+  end
+
+  private
+
+  def introduction
+    puts ">>> PLAY THE CLASSIC GAME OF CONNECT FOUR <<<\n\nTake turns placing game pieces on the board. Choose one of 7 columns, and your piece will 'slide' to the bottom. Stack four in a row vertically, line them up horizontally, or even surprise your opponent with four of your pieces arrayed diagonally!\n\n>>> The first to CONNECT FOUR wins! <<<\n\n"
+  end
+
+  def print_board board = @board.spaces
+    board.each do |row|
+      str = ""
+      row.each do |space| 
+        space ? str += "_#{space}_|" : str += "___|"
+      end
+      puts str
+    end
+  end
+
 end
