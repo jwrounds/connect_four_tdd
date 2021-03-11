@@ -38,7 +38,7 @@ class Game
           in_row = 0
         end
       end
-    end
+    end  
     false
   end
 
@@ -157,18 +157,39 @@ class Game
   end
 
   def set_players
-    player_one_name = gets "First player, please enter your name: "
-    player_one_symbol = gets "First player, please enter your symbol: "
+    puts "\nFirst player, please enter your name: "
+    player_one_name = gets.chomp
+    puts "First player, please enter your symbol: "
+    player_one_symbol = gets.chomp
     @players.push(Player.new(player_one_name, player_one_symbol))
 
-    player_two_name = gets "\nSecond player, please enter your name: "
-    player_two_symbol = gets "Second player, please enter your symbol: "
+    puts "\nSecond player, please enter your name: "
+    player_two_name = gets.chomp 
+    puts "Second player, please enter your symbol: "
+    player_two_symbol = gets.chomp
     @players.push(Player.new(player_two_name, player_two_symbol))
   end
 
   def play_game
     introduction
-    print_board
+    set_players
+
+    current = nil;
+
+    while !game_over?
+      current == @players[0] ? current = @players[1] : current = @players[0]
+      print_board
+      puts "#{current.name} enter a column (0 to 6) to play your piece: "
+      chosen_column = gets.chomp.to_i
+      current.play_piece @board, chosen_column
+    end
+
+    check_winner ? @winner = current : @winner = nil
+    if winner 
+      puts "#{@winner.name} wins!"
+    else
+      puts "Tie game!"
+    end
   end
 
   private

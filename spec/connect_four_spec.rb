@@ -81,6 +81,22 @@ describe Game do
         row_won.check_rows
       end
     end
+
+    context 'when there are two of the same next to two of the other sumbols' do
+      let(:horizontal_board) { instance_double(Board, spaces: [
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, 'X', 'X', 'O', 'O', false]
+      ])}
+      subject(:row_not_won) { described_class.new(horizontal_board) }
+    end
+
+    it 'returns false' do
+      expect(row_not_won.check_rows).to eq(false)
+    end
   end
 
   describe '#check_columns' do
