@@ -82,20 +82,22 @@ describe Game do
       end
     end
 
-    context 'when there are two of the same next to two of the other sumbols' do
+    context 'when there are less than four consecutive symbols next to less than four consecutive differing symbols' do
       let(:horizontal_board) { instance_double(Board, spaces: [
         [false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false],
-        [false, false, 'X', 'X', 'O', 'O', false]
+        [false, false, 'X', 'X', 'O', 'O', 'O']
       ])}
       subject(:row_not_won) { described_class.new(horizontal_board) }
-    end
+   
 
-    it 'returns false' do
-      expect(row_not_won.check_rows).to eq(false)
+      it 'returns false' do
+        expect(row_not_won.check_rows).to eq(false)
+        row_not_won.check_rows
+      end 
     end
   end
 
@@ -109,6 +111,24 @@ describe Game do
         expect(column_won.check_columns).to eq(true)
         column_won.check_columns
       end
+    end
+
+    context 'when there are less than four consecutive symbols next to less than four consecutive differing symbols' do
+      let(:vertical_board) { instance_double(Board, spaces: [
+        [false, false, false, false, false, false, false],
+        [false, false, false, 'O', false, false, false],
+        [false, false, 'O', 'O', false, false, false],
+        [false, false, 'O', 'X', false, false, false],
+        [false, false, 'X', 'X', false, false, false],
+        [false, false, 'X', 'X', false, false, false]
+      ])}
+      subject(:column_not_won) { described_class.new(vertical_board) }
+   
+
+      it 'returns false' do
+        expect(column_not_won.check_columns).to eq(false)
+        column_not_won.check_columns
+      end 
     end
   end
 

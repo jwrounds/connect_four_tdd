@@ -30,12 +30,13 @@ class Game
       in_row = 0
       row.each_with_index do |space, i|
         # check current space for a valid piece, then whether it's neighbors are of the same type
-        if space
-          in_row += 1 if space == row[i+1] || space == row[i-1]
-          return true if in_row == 4
-        # reset if neighboring piece differs
-        else
-          in_row = 0
+        if space 
+          if space == row[i+1] && space == row[i-1]
+            in_row += 2
+            return true if in_row == 4 
+          else 
+            in_row = 0
+          end
         end
       end
     end  
@@ -55,16 +56,27 @@ class Game
         space = @board.spaces[row][column]
 
         # if next and last spaces are valid, initialize them as variables
-        next_space = @board.spaces[row+1][column] if row < row_length-1
-        last_space = @board.spaces[row-1][column] if column < column_length-1
+        if row < row_length-1
+          next_space = @board.spaces[row+1][column]
+        else
+          next_space = nil
+        end
+
+        if row > 0
+          last_space = @board.spaces[row-1][column]
+        else
+          last_space = nil
+        end
 
         # check current piece, and whether it's in sequence with its neighbors
         if space
-          in_row += 1 if space == next_space || space == last_space
-          return true if in_row == 4
-        # reset if neighboring piece differs
-        else
-          in_row = 0
+          if space == next_space && space == last_space
+            in_row += 2
+            return true if in_row == 4
+          # reset if neighboring piece differs
+          else
+            in_row = 0
+          end
         end
         row += 1
       end
